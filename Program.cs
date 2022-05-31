@@ -10,9 +10,11 @@ namespace TP07
             var tareasPendientes = new List<Tarea>();
             var tareasRealizadas = new List<Tarea>();
 
-            Console.Write("Cuantas TAREAS PENDIENTES desea crear aleatoriamente?");
+            Console.Write("¿Cuantas TAREAS PENDIENTES desea crear aleatoriamente?: ");
             tareasPendientes = CrearListaDeTareas(Convert.ToInt32(Console.ReadLine()));
-            
+
+            BuscarPorDescripcion(tareasPendientes);
+            MoverTareas(tareasPendientes, tareasRealizadas);
         }
 
         public static List<Tarea> CrearListaDeTareas(int cantTareas){
@@ -28,13 +30,21 @@ namespace TP07
                 descripcion = "Descripcion Generica N" + (i+1);
                 duracion = new Random().Next(10,101);
                 var Tarea = new Tarea(tareaID, descripcion, duracion);
+                Lista.Add(Tarea);
             }
 
             return Lista;
         }
 
-        public static void MostrarTareas(List<Tarea> tareasPendientes, List<Tarea> tareasRealizadas){
+        public static void MoverTareas(List<Tarea> tareasPendientes, List<Tarea> tareasRealizadas){
+            var ListaAux = new List<Tarea>();;
+
             foreach (var tarea in tareasPendientes)
+            {
+                ListaAux.Add(tarea);
+            }
+
+            foreach (var tarea in ListaAux)
             {
                 Console.WriteLine("\nTarea ID: " + tarea.TareaID);
                 Console.WriteLine("Descripcion: " + tarea.Descripcion);
@@ -42,23 +52,29 @@ namespace TP07
                 Console.Write("Se realizo esta tarea? 1 = Si: ");
                 if (Convert.ToInt32(Console.ReadLine()) == 1)
                 {
-                    MoverTareas(tareasPendientes, tareasRealizadas, tarea.TareaID);
-                }
-
-            }
-        }
-
-        public static void MoverTareas(List<Tarea> tareasPendientes, List<Tarea> tareasRealizadas, int tareaID){
-            foreach (var tarea in tareasPendientes)
-            {
-                if (tarea.TareaID == tareaID)
-                {
                     tareasRealizadas.Add(tarea);
                     tareasPendientes.Remove(tarea);
-                    break;
                 }
+
             }
         }
+
+        public static void BuscarPorDescripcion(List<Tarea> tareasPendientes){
+            string descripcion = Console.ReadLine();
+
+            Console.WriteLine("Resultados de la busqueda:");
+            foreach (var tarea in tareasPendientes)
+            {
+                if (tarea.Descripcion.Contains(descripcion))
+                {
+                    Console.WriteLine("\nTarea ID: " + tarea.TareaID);
+                    Console.WriteLine("Descripcion: " + tarea.Descripcion);
+                    Console.WriteLine("Duracion: " + tarea.Duracion);
+                }
+            }
+            Console.WriteLine("/////////////////FIN DE LA BUSQUEDA/////////////////");
+        }
+
     }
 
     public class Tarea {
