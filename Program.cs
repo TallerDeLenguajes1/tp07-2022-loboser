@@ -15,6 +15,7 @@ namespace TP07
 
             BuscarPorDescripcion(tareasPendientes);
             MoverTareas(tareasPendientes, tareasRealizadas);
+            SumarioDeHorasTrabajadas(tareasRealizadas);
         }
 
         public static List<Tarea> CrearListaDeTareas(int cantTareas){
@@ -60,9 +61,11 @@ namespace TP07
         }
 
         public static void BuscarPorDescripcion(List<Tarea> tareasPendientes){
+            Console.Write("Ingrese una palabra para buscar: ");
+
             string descripcion = Console.ReadLine();
 
-            Console.WriteLine("Resultados de la busqueda:");
+            Console.WriteLine("\nResultados de la busqueda:");
             foreach (var tarea in tareasPendientes)
             {
                 if (tarea.Descripcion.Contains(descripcion))
@@ -75,6 +78,14 @@ namespace TP07
             Console.WriteLine("/////////////////FIN DE LA BUSQUEDA/////////////////");
         }
 
+        public static void SumarioDeHorasTrabajadas(List<Tarea> tareasRealizadas){
+            int suma = 0;
+            foreach (var tarea in tareasRealizadas)
+            {
+                suma += tarea.Duracion;
+            }
+            Console.WriteLine("\nTotal de Horas trabajadas: " + suma);
+        }
     }
 
     public class Tarea {
